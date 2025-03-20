@@ -45,3 +45,18 @@ class Product(models.Model):
 
     def __str__(self):
         return f"Product {self.name}: description ({self.description})"
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Имя')
+    email = models.EmailField(verbose_name='Электронная почта')
+    phone = models.CharField(max_length=20, verbose_name='Телефон')
+    address = models.TextField(verbose_name='Адрес')
+
+    class Meta:
+        verbose_name = 'контакт'
+        verbose_name_plural = 'контакты'
+        ordering = ['name']
+
+    def __str__(self):
+        return f'{self.name} {self.email}'
