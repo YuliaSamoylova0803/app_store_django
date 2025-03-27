@@ -104,6 +104,45 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+       /* Стили для формы */
+    .card {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card-header {
+        padding: 1rem;
+    }
+    form p {
+        margin-bottom: 1rem;
+    }
+    form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    form input, form textarea, form select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+    form .helptext {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    /* Стили для пагинации */
+    .pagination {
+        margin-top: 20px;
+    }
+    .page-item.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+    .page-link {
+        color: #0d6efd;
+    }
+    .page-link:hover {
+        color: #0a58ca;
+    }
     </style>
 
 
@@ -172,24 +211,20 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Интернет-магазин SkyStore</h1>
         <p class="lead text-body-secondary">Просматривайте, сравнивайте, покупайте </p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Main call to action</a>
-          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-        </p>
       </div>
     </div>
   </section>
 
+  {% block content %}
+  {% endblock %}
 
-{% block content %}
-{% endblock %}
+  </main>
+</div>
 
-</main>
-
-<footer class="text-body-secondary py-5">
-{% include 'catalog/footer.html'%}
-</footer>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
-
-    </body>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        {% include 'catalog/footer.html'%}
+    </footer>
+</div>
+<script src="/static/js/bootstrap.bundle.js"></script>   <!-- Подключите статичеcкие файлы со скриптами Bootstrap -->
+</body>
 </html>
