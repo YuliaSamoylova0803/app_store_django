@@ -29,3 +29,18 @@ def home_view(request):
     }
 
     return render(request, 'home.html', context)
+
+
+def product_list(request):
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'catalog/product_list.html', context)
+
+
+def product_detail(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        book = None
+    context = {'product': product}
+    return render(request, 'catalog/product_detail.html', context)
