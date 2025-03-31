@@ -16,7 +16,7 @@ class Category(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return f"Category {self.name}: description ({self.description})"
+        return f"{self.name} ({self.description})"
 
 
 class Product(models.Model):
@@ -44,7 +44,7 @@ class Product(models.Model):
         ordering = ["name", "purchase_price"]
 
     def __str__(self):
-        return f"Product {self.name}: description ({self.description})"
+        return f"{self.name}: {self.description}"
 
 
 class Contact(models.Model):
