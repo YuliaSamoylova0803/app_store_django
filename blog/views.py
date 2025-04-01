@@ -21,7 +21,7 @@ class BlogDetailView(DeleteView):
 
 class BlogUpdateViews(UpdateView):
     model = Blog
-    fields = ["title", "content", "preview", "created_at", "is_published"]
+    fields = ["title", "content", "preview", "is_published"]
     success_url = reverse_lazy("blog:blog_list")
 
 
