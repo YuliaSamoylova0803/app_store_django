@@ -15,7 +15,7 @@ class BlogListView(ListView):
     model = Blog
 
 
-class BlogDetailView(DeleteView):
+class BlogDetailView(DetailView):
     model = Blog
 
 
