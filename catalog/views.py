@@ -15,7 +15,7 @@ class HomeView(FormMixin, ListView):
     model = Product
     paginate_by = 6
     ordering = ['id']
-    context_object_name = 'page_obj'
+    context_object_name = 'products'
 
     def get_success_url(self):
         return self.request.path
@@ -47,29 +47,7 @@ def test_pagination(request):
     page = paginator.get_page(1)
     return HttpResponse(f"Всего товаров: {paginator.count}, Страниц: {paginator.num_pages}, На странице: {len(page)}")
 
-# def home(request):
-#     if request.method == 'POST':
-#         form = ProductForms(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('catalog:home')
-#     else:
-#         form = ProductForms()
-#
-#     # Получаем все товары и настраиваем пагинацию
-#     products_list = Product.objects.all().order_by('id')
-#     paginator = Paginator(products_list, 6) # 6 товаров
-#
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#
-#     return render(request, "catalog/home.html", {
-#         'form': form,
-#         'page_obj': page_obj
-#     })
 
-# app_name/<model_name>_action
-# catalog/contacts
 class ContactsView(TemplateView):
     template_name = 'catalog/contacts.html'
 
