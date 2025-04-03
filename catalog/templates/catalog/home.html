@@ -26,7 +26,7 @@
         <div class="container">
             <h2 class="text-center mb-4">Список товаров</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                {% for product in page_obj %}
+                {% for product in products %}  <!-- Изменили page_obj на products -->
                 <div class="col">
                     <div class="card shadow-sm">
                         <img src="{{ product.image|media_filter }}" class="bd-placeholder-img card-img-top" width="100%" height="225">
