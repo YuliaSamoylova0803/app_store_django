@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-from django.conf.global_settings import STATICFILES_DIRS, MEDIA_URL, MEDIA_ROOT
+from django.conf.global_settings import STATICFILES_DIRS, MEDIA_URL, MEDIA_ROOT, ADMINS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,3 +140,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ADMINS = [("Юлия Самойлова", "Ulia629736@yandex.ru")]
+
+# Для тестирования - письма в консоль
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.yandex.ru'  # Или ваш SMTP-сервер
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'Ulia629736@yandex.ru'
+# EMAIL_HOST_PASSWORD = '02Yulia04'
