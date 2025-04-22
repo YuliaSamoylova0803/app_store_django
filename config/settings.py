@@ -15,7 +15,8 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-from django.conf.global_settings import STATICFILES_DIRS, MEDIA_URL, MEDIA_ROOT, ADMINS, AUTH_USER_MODEL
+from django.conf.global_settings import STATICFILES_DIRS, MEDIA_URL, MEDIA_ROOT, ADMINS, AUTH_USER_MODEL, \
+    LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL, LOGIN_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -144,14 +145,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = "users.CustomUser"
 
-# ADMINS = [("Юлия Самойлова", "Ulia629736@yandex.ru")]
+LOGIN_REDIRECT_URL = "catalog:product_list"
+LOGOUT_REDIRECT_URL = "catalog:base"
+LOGIN_URL = "users/login"
 
-# Для тестирования - письма в консоль
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.yandex.ru'  # Или ваш SMTP-сервер
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'Ulia629736@yandex.ru'
-# EMAIL_HOST_PASSWORD = '02Yulia04'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'Ulia629736@yandex.ru'
+EMAIL_HOST_PASSWORD = 'zyjakgdtpewdacqc'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
