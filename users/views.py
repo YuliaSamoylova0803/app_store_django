@@ -1,7 +1,9 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.core.mail import send_mail
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserEditForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 
 
 # Create your views here.
@@ -21,3 +23,16 @@ class RegisterView(CreateView):
         from_email = "Ulia629736@yandex.ru"
         recipient_list = [user_email,]
         send_mail(subject,message, from_email, recipient_list)
+
+
+@login_required
+def edit_profile(request):
+    form = CustomUserEditForm(instance=request.user)  # Инициализация формы вне условий
+
+    if request.method == 'POST':
+        form = CustomUserEditForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('catalog:product_list')  # Переход на главную страницу
+
+    return render(request, 'users/edit_profile.html', {'form': form})
