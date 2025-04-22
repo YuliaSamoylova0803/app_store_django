@@ -7,6 +7,7 @@ from .models import Product
 from .forms import ProductForms
 from django.views.generic import ListView, DeleteView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, FormMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # app_name/<model_name>_action
@@ -80,25 +81,25 @@ class ProductListView(ListView):
 
 # app_name/<model_name>_action
 # catalog/product_detail
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
 
-class ProductCreateViews(CreateView):
-    model = Product
-    form_class = ProductForms
-    template_name = "catalog/product_form.html"
-    success_url = reverse_lazy("catalog:product_list")
-
-
-class ProductUpdateView(UpdateView):
+class ProductCreateViews(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForms
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:product_list")
 
 
-class ProductDeleteView(DeleteView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductForms
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:product_list")
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:product_list')
