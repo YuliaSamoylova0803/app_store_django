@@ -145,9 +145,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = "users.CustomUser"
 
-LOGIN_REDIRECT_URL = "catalog:product_list"
+LOGIN_REDIRECT_URL = "catalog:home"
 LOGOUT_REDIRECT_URL = "catalog:base"
-LOGIN_URL = "users/login"
+LOGIN_URL = "users/login/"
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
