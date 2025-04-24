@@ -1,6 +1,5 @@
 from django.urls import path
-
-from catalog import views
+from django.contrib.auth.decorators import login_required
 from catalog.apps import CatalogConfig
 
 from catalog.views import ProductListView, ProductDetailView, HomeView, ContactsView, ProductCreateViews, ProductUpdateView, ProductDeleteView
@@ -8,9 +7,12 @@ from catalog.views import ProductListView, ProductDetailView, HomeView, Contacts
 app_name = CatalogConfig.name
 
 urlpatterns = [
-    path("home/", HomeView.as_view(), name="home"),
+    # Общедоступные пути
+    path("base/", ProductListView.as_view(), name="product_list"),  # Общедоступный
     path("contacts/", ContactsView.as_view(), name="contacts"),
-    path("base/", ProductListView.as_view(), name="product_list"),
+
+    # Защищенные пути (только для авторизованных)
+    path("home/", HomeView.as_view(), name="home"),
     path("product/<int:pk>/", ProductDetailView.as_view(), name="product_detail"),
     path("product/new/", ProductCreateViews.as_view(), name="product_form"),
     path("product/<int:pk>/update/", ProductUpdateView.as_view(), name="product_update"),
