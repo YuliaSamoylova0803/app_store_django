@@ -150,3 +150,13 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:product_list')
     login_url = '/users/login/'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        # Владелец или модератор может удалять
+        if not (request.user == self.object.owner or
+                request.user.has_perm("catalog.can_delete_product")):
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)
