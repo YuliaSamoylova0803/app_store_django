@@ -15,6 +15,14 @@ class Blog(models.Model):
         verbose_name = "блог"
         verbose_name_plural = "блоги"
         ordering = ["title"]
+        permissions = [
+            ("can_add_blog", "Может добавлять статьи"),
+            ("can_change_blog", "Может изменять статьи"),
+            ("can_delete_blog", "Может удалять статьи"),
+            ("can_view_blog", "Может просматривать статьи"),
+            ("can_view_unpublished", "Может просматривать неопубликованные статьи"),
+            ("can_publish_blog", "Может публиковать статьи"),
+        ]
 
     def __str__(self):
         return self.title
