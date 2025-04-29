@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 
 from .models import Product
-from .forms import ProductForms
+from .forms import ProductForms, ProductModeratorForms
 from django.views.generic import ListView, DeleteView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 
 
 # app_name/<model_name>_action
@@ -113,8 +114,12 @@ class ProductCreateViews(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("catalog:product_list")
     login_url = '/users/login/'
 
+
     def form_valid(self, form):
-        form.instance.user = self.request.user  # Привязываем товар к пользователю
+        product = form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
         return super().form_valid(form)
 
 
@@ -128,6 +133,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("catalog:product_list")
 
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForms
+        if user.has_perm("catalog.can_unpublish_product") and user.has_perm("catalog.can_delete_product"):
+            return ProductModeratorForms
+        raise PermissionDenied
+
+
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """
     Удаление товара (только для авторизованных)
@@ -136,3 +150,13 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:product_list')
     login_url = '/users/login/'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        # Владелец или модератор может удалять
+        if not (request.user == self.object.owner or
+                request.user.has_perm("catalog.can_delete_product")):
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)

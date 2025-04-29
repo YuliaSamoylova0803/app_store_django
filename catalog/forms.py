@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 
 from .models import Product
 
@@ -109,3 +110,12 @@ class ProductForms(forms.ModelForm):
                 self.add_error(field, message)
 
         return cleaned_data
+
+
+class ProductModeratorForms(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["is_published"]
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+        }
