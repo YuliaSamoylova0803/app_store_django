@@ -91,6 +91,11 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Интернет-магазин SkyStore</h1>
         <p class="lead text-body-secondary">Просматривайте, сравнивайте, покупайте </p>
+        {% if user.is_authenticated%}
+        <p>
+          <a class="btn btn-primary" href="{% url 'catalog:product_form' %}" role="button">Создать продукт</a>
+        {% endif %}
+        </p>
       </div>
     </div>
   </section>
