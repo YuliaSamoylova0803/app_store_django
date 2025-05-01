@@ -2,6 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.views.decorators.cache import cache_page
 
 from .models import Product
 from .forms import ProductForms, ProductModeratorForms
@@ -9,7 +10,8 @@ from django.views.generic import ListView, DeleteView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-
+from django.utils.decorators import method_decorator
+from django.core.cache import cache
 
 # app_name/<model_name>_action
 # catalog/home
@@ -81,6 +83,8 @@ class HomeViewView(LoginRequiredMixin, ListView):
 
 # app_name/<model_name>_action
 # catalog/product_list
+
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ProductListView(ListView):
     """
     Главная страница - список товаров (общедоступная)
@@ -94,6 +98,9 @@ class ProductListView(ListView):
 
 # app_name/<model_name>_action
 # catalog/product_detail
+
+
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     """
     Детали товара (только для авторизованных)
