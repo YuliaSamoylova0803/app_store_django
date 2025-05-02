@@ -13,6 +13,9 @@ from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
 
+from .services import get_product_list_from_cache
+
+
 # app_name/<model_name>_action
 # catalog/home
 class HomeView(LoginRequiredMixin, FormMixin, ListView):
@@ -95,11 +98,12 @@ class ProductListView(ListView):
     paginate_by = 10
     ordering = ['-created_at']  # Сортировка по дате создания (новые сначала)
 
+    def get_queryset(self):
+        return get_product_list_from_cache()
+
 
 # app_name/<model_name>_action
 # catalog/product_detail
-
-
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     """
