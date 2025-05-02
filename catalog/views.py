@@ -1,10 +1,10 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.decorators.cache import cache_page
 
-from .models import Product
+from .models import Product, Category
 from .forms import ProductForms, ProductModeratorForms
 from django.views.generic import ListView, DeleteView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, FormMixin
@@ -13,7 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
 
-from .services import get_product_list_from_cache
+from .services import get_product_list_from_cache, CategoryService
 
 
 # app_name/<model_name>_action
@@ -171,3 +171,24 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
             raise PermissionDenied
 
         return super().dispatch(request, *args, **kwargs)
+
+
+class CategoryProductView(LoginRequiredMixin, ListView):
+    """
+    Список товаров в указанной категории (только для авторизованных пользователей).
+    """
+    template_name = 'catalog/category_products.html'
+    context_object_name = 'products'
+    paginate_by = 10
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return CategoryService.get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Добавляем текущую категорию
+        context['category'] = get_object_or_404(Category, id=self.kwargs['category_id'])
+        # Добавляем список всех категорий для меню
+        context['categories'] = Category.objects.all()
+        return context
