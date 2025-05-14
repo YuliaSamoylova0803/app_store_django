@@ -113,3 +113,7 @@
     .page-link:hover {
         color: #0a58ca;
     }
+    .list-unstyled ul {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+}
